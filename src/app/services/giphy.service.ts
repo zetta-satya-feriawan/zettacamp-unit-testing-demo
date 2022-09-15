@@ -40,7 +40,7 @@ export class GiphyService {
           return {
             id: item?._id,
             title: item?.title,
-            src: item?.images?.fixed_height?.webp || item?.images?.fixed_height?.url
+            src: item?.images?.fixed_height?.webp || item?.images?.fixed_height?.url,
           }
         })
       })
@@ -56,7 +56,7 @@ export class GiphyService {
           return {
             id: item?._id,
             title: item?.title,
-            src: item?.images?.fixed_height?.webp || item?.images?.fixed_height?.url
+            src: item?.images?.fixed_height?.webp || item?.images?.fixed_height?.url,
           }
         })
       })
