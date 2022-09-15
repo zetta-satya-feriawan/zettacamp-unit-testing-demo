@@ -1,0 +1,13 @@
+h1 {
+  text-align: center;
+}
+ul {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  li {
+    padding: 4px;
+  }
+}

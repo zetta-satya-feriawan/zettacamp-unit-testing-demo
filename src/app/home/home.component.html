@@ -1,0 +1,6 @@
+<h1>Trending</h1>
+<ul>
+  <li *ngFor="let gif of gifs$ | async; trackBy: trackByID">
+    <img [src]="gif?.src" [alt]="gif?.title" [title]="gif?.title" />
+  </li>
+</ul>

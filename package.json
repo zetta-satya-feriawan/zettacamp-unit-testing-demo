@@ -1,6 +1,10 @@
 {
   "name": "unit-testing-demo",
   "version": "0.0.0",
+  "prettier": {
+    "printWidth": 140,
+    "semi": false
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

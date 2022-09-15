@@ -1,0 +1,8 @@
+<h1>Explore</h1>
+<p *ngIf="!(gifs$ | async)?.length">Try searching: mario</p>
+<input type="text" placeholder="Search..." [formControl]="query" />
+<ul>
+  <li *ngFor="let gif of gifs$ | async; trackBy: trackByID">
+    <img [src]="gif?.src" [alt]="gif?.title" [title]="gif?.title" />
+  </li>
+</ul>
