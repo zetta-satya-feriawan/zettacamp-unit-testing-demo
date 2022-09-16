@@ -42,4 +42,12 @@ describe('HomeComponent', () => {
     const gifs = el.querySelectorAll('li > img')
     expect(gifs.length).toBe(2)
   })
+
+  it('should not display any gifs if the getTrendingGifs returns an empty array', () => {
+    let service = de.injector.get(GiphyService)
+    spyOn(service, 'getTrendingGifs').and.returnValue(of([]))
+    const el = de.nativeElement as HTMLElement
+    const gifs = el.querySelectorAll('li > img')
+    expect(gifs.length).toBe(2)
+  })
 })
