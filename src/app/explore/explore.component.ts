@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormControl } from '@angular/forms'
-import { debounceTime, Observable, of, Subject, switchMap, takeUntil } from 'rxjs'
-import { GifType, GiphyService } from '../services/giphy.service'
+import { Component, OnDestroy, OnInit } from "@angular/core"
+import { FormControl } from "@angular/forms"
+import { debounceTime, Observable, of, Subject, switchMap, takeUntil } from "rxjs"
+import { GifType, GiphyService } from "../services/giphy.service"
 
 @Component({
-  selector: 'app-explore',
-  templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.scss'],
+  selector: "app-explore",
+  templateUrl: "./explore.component.html",
+  styleUrls: ["./explore.component.scss"],
 })
 export class ExploreComponent implements OnInit, OnDestroy {
   public query = new FormControl<string | null>(null)
@@ -20,7 +20,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
       debounceTime(500),
       switchMap((query) => {
-        return this.giphy.searchGifs(query || '')
+        return this.giphy.searchGifs(query || "")
       })
     )
   }
