@@ -3,16 +3,24 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from "@angul
 import { FormControl, ReactiveFormsModule } from "@angular/forms"
 import { ExploreComponent } from "./explore.component"
 import { GiphyService, GifType } from "../services/giphy.service"
-import { of } from "rxjs"
+import { Observable, of } from "rxjs"
+import { By } from "@angular/platform-browser"
+// import { MockProvider, MockRender } from "ng-mocks"
+import { DebugElement } from "@angular/core"
 
 describe("ExploreComponent", () => {
   let component: ExploreComponent
   let fixture: ComponentFixture<ExploreComponent>
   let giphyService: GiphyService
-  let trendingGifs: GifType[] = [
-    { id: "1", title: "GIF 1", src: "https://giphy.com/gif1" },
-    { id: "2", title: "GIF 2", src: "https://giphy.com/gif2" },
-  ]
+  let de: DebugElement
+  // giphyServiceStub = {
+  //   getTrendingGifs: (): Observable<GifType[]> => {
+  //     return of([
+  //       { id: "test-id-1", src: "test-src-1", title: "test-title-1" },
+  //       { id: "test-id-2", src: "test-src-2", title: "test-title-2" },
+  //     ])
+  //   },
+  // }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -51,13 +59,50 @@ describe("ExploreComponent", () => {
     expect(gifElements.length).toBe(0)
   })
 
-  it("should display the GIF images after debounce time", fakeAsync(() => {
-    spyOn(giphyService, "searchGifs").and.callThrough()
-    component.query.setValue("mario")
+  // it("The gifs image should be present", fakeAsync(()=>{
+  //   const fixture = MockRender(ExploreComponent)
 
-    tick(500)
+  // }))
+  // it("should display the GIF images after debounce time", fakeAsync(() => {
+  //   // const  = fixture.debugElement.query(By.css('.input-filter')).nativeElement;
+  //   spyOn(giphyService, "searchGifs").and.returnValue(of(trendingGifs))
+  //   // spyOn(giphyService, "getTrendingGifs").and.returnValue(of(trendingGifs))
+  //   component.query.setValue("mario")
+  //   tick(500)
+  //   fixture.detectChanges()
+  //   expect(giphyService.searchGifs).toHaveBeenCalled()
+  //   component.gifs$.subscribe((result) => {
+  //     expect(result.length).toEqual(trendingGifs.length)
+  //     console.log("Ga muncul")
+  //   }
+  //   )
+  //   // expect(giphyService.getTrendingGifs).toHaveBeenCalled()
+  // }))
+
+  it("should display the GIF images", fakeAsync(() => {
+    // Arrange
+    const gifs: GifType[] = [
+      { id: "test-id-1", src: "test-src-1", title: "test-title-1" },
+      { id: "test-id-2", src: "test-src-2", title: "test-title-2" },
+    ]
+    spyOn(giphyService, "searchGifs").and.returnValue(of(gifs))
+
+    // Act
+    component.query.setValue("mario")
+    tick(500) // Wait for debounceTime
+
+    // Update the view
     fixture.detectChanges()
 
-    expect(giphyService.searchGifs).toHaveBeenCalled()
+    // Assert
+    const gifElements: HTMLLIElement[] = fixture.nativeElement.querySelectorAll("li")
+    expect(gifElements.length).toBe(gifs.length)
+
+    // Check if the GIF images are displayed correctly
+    for (let i = 0; i < gifs.length; i++) {
+      const imgElement: HTMLImageElement | null = gifElements[i].querySelector("img")
+      expect(imgElement!.src).toContain(gifs[i].src)
+      expect(imgElement!.alt).toBe(gifs[i].title)
+    }
   }))
 })
