@@ -23,6 +23,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
         return this.giphy.searchGifs(query || "")
       })
     )
+    console.log(this.gifs$)
   }
 
   ngOnDestroy(): void {
